@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
+const { createTransaction, createPurchase, getTransactions, getPurchases, updateTransaction, deleteTransaction } = require('./crud');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -16,10 +17,11 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'pages/homePage.html'));
+  //mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -48,3 +50,26 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+ipcMain.handle('create-transaction', async (event, transaction) => {
+  return await createTransaction(transaction);
+});
+
+ipcMain.handle('create-purchase', async (event, purchase) => {
+  return await createPurchase(purchase);
+});
+
+ipcMain.handle('get-transactions', async () => {
+  return await getTransactions();
+});
+
+ipcMain.handle('get-purchases', async (event, transactionId) => {
+  return await getPurchases(transactionId);
+});
+
+ipcMain.handle('update-transaction', async (event, id, update) => {
+  return await updateTransaction(id, update);
+});
+
+ipcMain.handle('delete-transaction', async (event, id) => {
+  return await deleteTransaction(id);
+});
