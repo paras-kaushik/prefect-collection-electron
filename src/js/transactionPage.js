@@ -1,6 +1,6 @@
 async function loadTodaysTransactions() {
   try {
-    const transactions = await window.api.getTransactions();
+    const transactions = await window.api.getTodaysTransactions();
     console.log('Transactions:', transactions);
 
     const transactionsList = document.getElementById('transactionsList');

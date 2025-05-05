@@ -33,10 +33,16 @@ const createPurchase = (purchase) => {
   });
 };
 
-// Read Transactions
-const getTransactions = () => {
+// Helper function to format date to YYYY-MM-DD
+const formatDate = (date) => {
+  return date.toISOString().split('T')[0];
+};
+
+// Read Transactions by Date
+const getTransactionsByDate = (date) => {
   return new Promise((resolve, reject) => {
-    db.all(`SELECT * FROM transactions ORDER BY createdAt DESC`, [], (err, rows) => {
+    const formattedDate = formatDate(date);
+    db.all(`SELECT * FROM transactions WHERE DATE(createdAt) = ? ORDER BY createdAt DESC`, [formattedDate], (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -44,6 +50,11 @@ const getTransactions = () => {
       }
     });
   });
+};
+
+// Read Today's Transactions
+const getTodaysTransactions = () => {
+  return getTransactionsByDate(new Date());
 };
 
 // Read Purchases for a Transaction
@@ -96,4 +107,4 @@ const deleteTransaction = (id) => {
   });
 };
 
-module.exports = { createTransaction, createPurchase, getTransactions, getPurchases, updateTransaction, deleteTransaction };
+module.exports = { createTransaction, createPurchase, getTodaysTransactions, getTransactionsByDate, getPurchases, updateTransaction, deleteTransaction };

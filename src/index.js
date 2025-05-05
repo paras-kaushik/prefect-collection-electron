@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('node:path');
-const { createTransaction, createPurchase, getTransactions, getPurchases, updateTransaction, deleteTransaction } = require('./crud');
+const { createTransaction, createPurchase, getTodaysTransactions, getPurchases, updateTransaction, deleteTransaction } = require('./crud');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -58,8 +58,8 @@ ipcMain.handle('create-purchase', async (event, purchase) => {
   return await createPurchase(purchase);
 });
 
-ipcMain.handle('get-transactions', async () => {
-  return await getTransactions();
+ipcMain.handle('get-todays-transactions', async () => {
+  return await getTodaysTransactions();
 });
 
 ipcMain.handle('get-purchases', async (event, transactionId) => {
