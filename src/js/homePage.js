@@ -117,13 +117,11 @@ async function handleDownload() {
                 font-family: Arial, sans-serif;
                 background-color: #f8f9fa;
                 margin: 0;
-                padding: 20px;
             }
             .invoice {
-                border: 1px solid;
-                margin: auto;
+                height: 100vh;
                 background: white;
-                padding: 20px;
+                padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
@@ -168,6 +166,9 @@ async function handleDownload() {
                 display: flex;
                 justify-content: space-between;
             }
+            p {
+              font-weight: 900;
+              }
         </style>
     </head>
     <body>
