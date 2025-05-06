@@ -105,6 +105,7 @@ async function handleDownload() {
   $("#input-and-mapping-container").remove();
   $(".item-table").css("max-height", "unset");
     // Generate HTML from completeTransactionJson
+ // Generate HTML from completeTransactionJson
     const invoiceHTML = `
     <!DOCTYPE html>
     <html lang="en">
@@ -120,7 +121,6 @@ async function handleDownload() {
             }
             .invoice {
                 border: 1px solid;
-                max-width: 500px;
                 margin: auto;
                 background: white;
                 padding: 20px;
@@ -200,33 +200,31 @@ async function handleDownload() {
                 `).join('')}
             </tbody>
         </table>
-        <div style="display:flex; justify-content: space-between;">
-            <div class="summary" style="display: flex; flex-direction: column; gap: 10px;width: 50%; margin-bottom: 20px;">
-                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
-                    <span>Total Items:</span>
-                    <span id="total-items">${completeTransactionJson.totalItems}</span>
-                </div>
-                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
-                    <span>Total:</span>
-                    <span id="total-amount">${completeTransactionJson.totalPrice}</span>
-                </div>
-                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
-                    <span>${currentDiscountValue}% DISCOUNT:</span>
-                    <span id="discount">-${(completeTransactionJson.totalPrice * (currentDiscountValue / 100)).toFixed(2)}</span>
-                </div>
-                <div class="summary-item net-total" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
-                    <span>Net Total:</span>
-                    <span id="net-total">${completeTransactionJson.netPrice}</span>
-                </div>
+        <div class="summary" style="display: flex; flex-direction: column; gap: 10px;width: 80%; margin: 0 auto 20px;">
+            <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                <span>Total Items:</span>
+                <span id="total-items">${completeTransactionJson.totalItems}</span>
             </div>
-            <div class="fixed-price" style="display: flex; flex-direction: column; justify-content: center;">
-                <h3>FIXED PRICE SHOP</h3>
+            <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                <span>Total:</span>
+                <span id="total-amount">${completeTransactionJson.totalPrice}</span>
             </div>
+            <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                <span>${currentDiscountValue}% DISCOUNT:</span>
+                <span id="discount">-${(completeTransactionJson.totalPrice * (currentDiscountValue / 100)).toFixed(2)}</span>
+            </div>
+            <div class="summary-item net-total" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                <span>Net Total:</span>
+                <span id="net-total">${completeTransactionJson.netPrice}</span>
+            </div>
+        </div>
+        <div class="footer">
+            <h3>FIXED PRICE SHOP</h3>
         </div>
     </div>
     </body>
     </html>
-  `;
+    `;
 
   // Send the HTML to the main process to print
   await window.api.printInvoice(invoiceHTML);
