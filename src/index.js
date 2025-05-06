@@ -73,3 +73,16 @@ ipcMain.handle('update-transaction', async (event, id, update) => {
 ipcMain.handle('delete-transaction', async (event, id) => {
   return await deleteTransaction(id);
 });
+
+ipcMain.handle('print-invoice', async (event, invoiceHTML) => {
+  console.log(invoiceHTML);
+  const printWindow = new BrowserWindow({ show: true });
+  printWindow.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(invoiceHTML));
+
+  printWindow.webContents.on('did-finish-load', () => {
+    printWindow.webContents.print({}, (success, errorType) => {
+      if (!success) console.log(errorType);
+      printWindow.close();
+    });
+  });
+});

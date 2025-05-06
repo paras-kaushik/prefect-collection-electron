@@ -104,8 +104,132 @@ async function handleDownload() {
 
   $("#input-and-mapping-container").remove();
   $(".item-table").css("max-height", "unset");
+    // Generate HTML from completeTransactionJson
+    const invoiceHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                margin: 0;
+                padding: 20px;
+            }
+            .invoice {
+                border: 1px solid;
+                max-width: 500px;
+                margin: auto;
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header, .footer {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .header h1, .footer h3 {
+                margin: 0;
+            }
+            .details, .summary {
+                margin-bottom: 20px;
+            }
+            .details h4, .summary h4 {
+                margin: 5px 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                font-weight: bolder;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            .total {
+                font-weight: bold;
+            }
+            .net-total {
+                font-size: 1.5rem;
+                color: #007bff;
+            }
+            h3 {
+                margin: 4px;
+            }
+            .details {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="invoice">
+        <div class="header">
+            <h1>Perfect Collection (9899258797)</h1>
+            <p>SC-190, Jaipuria Sunrise Plaza, Indirapuram, GIZB, UP</p>
+        </div>
+        <div class="details">
+            <h4>Rough Estimate No. ${completeTransactionJson.transactionNumber}</h4>
+            <h4>Date: ${completeTransactionJson.createdAt}</h4>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ITEM</th>
+                    <th>PRICE</th>
+                    <th>QUANTITY</th>
+                    <th>TOTAL PRICE</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${completeTransactionJson.purchases.map(purchase => `
+                    <tr>
+                        <td>${purchase.itemName}</td>
+                        <td>${purchase.itemPrice}</td>
+                        <td>${purchase.itemQuantity}</td>
+                        <td>${purchase.itemTotalPrice}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        <div style="display:flex; justify-content: space-between;">
+            <div class="summary" style="display: flex; flex-direction: column; gap: 10px;width: 50%; margin-bottom: 20px;">
+                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                    <span>Total Items:</span>
+                    <span id="total-items">${completeTransactionJson.totalItems}</span>
+                </div>
+                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                    <span>Total:</span>
+                    <span id="total-amount">${completeTransactionJson.totalPrice}</span>
+                </div>
+                <div class="summary-item" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                    <span>${currentDiscountValue}% DISCOUNT:</span>
+                    <span id="discount">-${(completeTransactionJson.totalPrice * (currentDiscountValue / 100)).toFixed(2)}</span>
+                </div>
+                <div class="summary-item net-total" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem;">
+                    <span>Net Total:</span>
+                    <span id="net-total">${completeTransactionJson.netPrice}</span>
+                </div>
+            </div>
+            <div class="fixed-price" style="display: flex; flex-direction: column; justify-content: center;">
+                <h3>FIXED PRICE SHOP</h3>
+            </div>
+        </div>
+    </div>
+    </body>
+    </html>
+  `;
 
-  window.print();
+  // Send the HTML to the main process to print
+  await window.api.printInvoice(invoiceHTML);
   
   console.log(JSON.stringify(completeTransactionJson));
   try {

@@ -8,5 +8,7 @@ contextBridge.exposeInMainWorld('api', {
   getTodaysTransactions: () => ipcRenderer.invoke('get-todays-transactions'),
   getPurchases: (transactionId) => ipcRenderer.invoke('get-purchases', transactionId),
   updateTransaction: (id, update) => ipcRenderer.invoke('update-transaction', id, update),
-  deleteTransaction: (id) => ipcRenderer.invoke('delete-transaction', id)
+  deleteTransaction: (id) => ipcRenderer.invoke('delete-transaction', id),
+  printInvoice: (invoiceHTML) => ipcRenderer.invoke('print-invoice', invoiceHTML)
+
 });
