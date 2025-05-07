@@ -75,8 +75,8 @@ ipcMain.handle('delete-transaction', async (event, id) => {
 });
 
 ipcMain.handle('print-invoice', async (event, invoiceHTML) => {
-  console.log(invoiceHTML);
-  const printWindow = new BrowserWindow({ show: true });
+  //console.log(invoiceHTML);
+  const printWindow = new BrowserWindow({ show: false });
   printWindow.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(invoiceHTML));
 
   printWindow.webContents.on('did-finish-load', () => {

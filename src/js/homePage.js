@@ -25,9 +25,9 @@ function handleDiscountValue(){
     bigDiscountCheckbox.checked = true;
     discountValueDisplayElem.innerText = "15% DISCOUNT";
     currentDiscountValue = 15;
-    document.body.style.background = "red";
+    //document.body.style.background = "red";
   } else {
-    document.body.style.background = "blue";
+    //document.body.style.background = "blue";
     currentDiscountValue = 10;
   }
 }
@@ -82,7 +82,7 @@ function toggleDiscount() {
 
   localStorage.setItem("bigDiscounttoggle", isChecked ? "setDiscount" : "unsetDiscount");
   $("#discount-value-display-elem").text(discountText);
-  document.body.style.background = backgroundColor;
+  //document.body.style.background = backgroundColor;
   currentDiscountValue = discountValue;
   location.reload();
 }
@@ -95,15 +95,19 @@ function loadShopItems() {
 }
 
 async function handleDownload() {
-  $(".item-delete").hide();
+  if(completeTransactionJson.purchases.length==0) return;
+
+  //$(".item-delete").hide();
 
   const transactionType = $(".hindi").is(":visible") ? "CASH" : "CARD/DIGITAL";
   completeTransactionJson.transactionType = transactionType;
   completeTransactionJson.remarks = $("#wild-input").val();
   completeTransactionJson.createdAt = $("#page-date").val();
+  incrementTransactionNumber();
 
-  $("#input-and-mapping-container").remove();
-  $(".item-table").css("max-height", "unset");
+  //$("#input-and-mapping-container").remove();
+  //$(".item-table").css("max-height", "unset");
+  location.reload();
     // Generate HTML from completeTransactionJson
  // Generate HTML from completeTransactionJson
     const invoiceHTML = `
@@ -119,7 +123,6 @@ async function handleDownload() {
                 margin: 0;
             }
             .invoice {
-                height: 100vh;
                 background: white;
                 padding: 10px;
                 border-radius: 10px;
@@ -156,15 +159,10 @@ async function handleDownload() {
                 font-weight: bold;
             }
             .net-total {
-                font-size: 1.5rem;
-                color: #007bff;
+                font-size: 3rem;
             }
             h3 {
                 margin: 4px;
-            }
-            .details {
-                display: flex;
-                justify-content: space-between;
             }
             p {
               font-weight: 900;
@@ -228,7 +226,8 @@ async function handleDownload() {
     `;
 
   // Send the HTML to the main process to print
-  await window.api.printInvoice(invoiceHTML);
+  //await window.api.printInvoice(invoiceHTML);
+  window.api.printInvoice(invoiceHTML);
   
   console.log(JSON.stringify(completeTransactionJson));
   try {
@@ -248,8 +247,8 @@ async function handleDownload() {
   } catch (error) {
     console.error("Error:", error);
   }
-  incrementTransactionNumber();
-  location.reload();
+ 
+  
 }
 
 function incrementTransactionNumber() {
@@ -348,9 +347,12 @@ function handleAddItemToList() {
       <td><span class="item-name">${itemName}</span></td>
       <td><span class="item-price">${newItemPrice}</span></td>
       <td><span class="item-quantity">${newItemQuantity}</span></td>
-      <td>
+      <td style="
+    display: flex;
+    justify-content: space-between;
+">
         <span class="font-weight-semibold item-total">${newRowTotal}</span>
-        <button class="item-delete btn btn-danger" style="margin-left: 1rem" onclick="handleDeleteItemFromList(event)">X</button>
+        <button class="item-delete" style="margin-left: 0.5rem; border: 0.25px solid red;" onclick="handleDeleteItemFromList(event)">X</button>
       </td>
     </tr>`;
 

@@ -11,8 +11,67 @@
   <link rel="stylesheet" href="../css/homePage.css">
 </head>
 <body>
-  <div class="container">
-    <div class="d-flex flex-row">
+    <div class="home-page-container">
+      <div class="invoice-card-container">
+        <div class="card" id="invoice">
+          <div>
+            <ul class="list-unstyled mb-0 text-left">
+              <li>
+                Perfect Collection (9899258797)
+              </li>
+              <li>
+                SC-190, Jaipuria Sunrise Plaza, Indirapuram, GIZB, UP
+              </li>
+            </ul>
+            <div class="list-unstyled mb-0 text-left">
+              <h4
+              >
+                Rough Estimate No. <span class="rough-estimate-number"></span>
+              </h4>
+              <h4
+              >
+                Date: <input type="date" id="page-date">
+              </h4>
+            </div>
+          </div>
+          <div class="table-responsive item-table">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: end; padding: 10px;">
+              <div class="flexcol">
+                <div id="page-total-items" style="font-size: x-large; color: black; margin: 0;">0</div>
+                <div class="textcenter">Total Items</div>
+              </div>
+              <div class="flexcol">
+                <div id="page-total-sum" style="font-size: x-large; color: black; margin: 0;">0</div>
+                <div class="textcenter">Total</div>
+              </div>
+              <div class="flexcol">
+                <div id="page-total-discountMinus" style="font-size: x-large; color: black; margin: 0;">0</div>
+                <div class="textcenter" id="discount-value-display-elem">10% off</div>
+                
+                <label class="hidden" style="margin-left: 10px;">
+                  <input id="bigDiscountCheckbox" type="checkbox">
+                  <div class="slider"></div>
+                </label>
+              </div>
+              <div class="flexcol">
+                <h5 id="paget-total-netTotal" style="font-size: xx-large; color: red; margin: 0;">0</h5>
+                <div class="textcenter">Net Total</div>
+              </div>
+            </div>
+            <table class="table table-lg">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Qty.</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="input-and-mapping-container" class="container list-control-container split left">
         <input
           type="number"
@@ -48,123 +107,7 @@
         >
         <div id="map-list" class="wrapper"></div>
       </div>
-      
-      <div class="container d-flex justify-content-center mt-5 mb-5 split right">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card" id="invoice">
-              <div class="card-body">
-                <ul class="list-unstyled mb-0 text-left">
-                  <li
-                    class="font-weight-bold text-decoration-underline"
-                    style="font-size: 2.7rem;"
-                  >
-                    Perfect Collection (9899258797)
-                  </li>
-                  <li style="font-size: 2rem;">
-                    SC-190, Jaipuria Sunrise Plaza, Indirapuram, GIZB, UP
-                  </li>
-                </ul>
-                <div class="list-unstyled mb-0 text-left">
-                  <h4
-                    class="font-weight-bold"
-                    style="font-size: 1.5rem;"
-                  >
-                    Rough Estimate No. <span class="rough-estimate-number"></span>
-                  </h4>
-                  <h4
-                    class="font-weight-bold"
-                    style="font-size: 1.5rem;"
-                  >
-                    Date: <input type="date" id="page-date">
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="table-responsive item-table"
-                style="max-height: 300px; overflow: auto;"
-              >
-                <table class="table table-lg">
-                  <thead>
-                    <tr>
-                      <th>ITEM</th>
-                      <th>PRICE</th>
-                      <th>QUANTITY</th>
-                      <th>TOTAL PRICE</th>
-                    </tr>
-                  </thead>
-                  <tbody id="table-body"></tbody>
-                </table>
-              </div>
-              <div class="card-body">
-                <div
-                  class="d-md-flex flex-md-wrap"
-                  style="margin-right: 5rem;"
-                >
-                  <div class="pt-2 mb-3 wmin-md-400 ml-auto">
-                    <div class="table-responsive">
-                      <table class="table">
-                        <tbody>
-                          <tr>
-                            <th class="text-left">Total Items:</th>
-                            <td
-                              id="page-total-items"
-                              class="position-absolute"
-                              style="margin-top: 0.2rem; margin-left: -5rem;"
-                            >
-                              0
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="text-left">Total:</th>
-                            <td id="page-total-sum" class="text-right">0</td>
-                          </tr>
-                          <tr>
-                            <th id="discount-value-display-elem" class="text-left">10% DISCOUNT:</th>
-                            <td id="page-total-discountMinus" class="text-right">0</td>
-                            <td>
-                              <label class="switch">
-                                <input id="bigDiscountCheckbox" type="checkbox">
-                                <span class="slider"></span>
-                              </label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th class="text-left">Net Total:</th>
-                            <td class="text-right text-primary">
-                              <h5
-                                id="paget-total-netTotal"
-                                class="font-weight-bold"
-                                style="font-size: xxx-large; color: black;"
-                              >
-                                0
-                              </h5>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="list-unstyled mb-0 text-left"
-                style="margin-left: 1rem; margin-top: -6rem;"
-              >
-                <div class="d-flex flex-column align-items-center">
-                  <div class="d-flex flex-row mt-2"></div>
-                </div>
-                <div class="d-flex justify-content-center">
-                  <div class="mt-5 border p-3">FIXED PRICE SHOP</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
   <script src="../js/homePage.js"></script>
 </body>
 </html>
