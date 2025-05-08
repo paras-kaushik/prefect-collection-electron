@@ -10,10 +10,57 @@ const shopItems = {
 
 let currentDiscountValue = 10;
 
+async function getTodaysSaleData(){
+  try {
+    const transactions = await window.api.getTodaysTransactions();
+    const totalSales = transactions.reduce((sum, transaction) => sum + transaction.netPrice, 0);
+    document.getElementById('total-sales').textContent = `${totalSales}`;
+
+    const transactionsList = document.getElementById('transactions-list');
+    transactions.forEach(transaction => {
+      const transactionDiv = document.createElement('div');
+      transactionDiv.style = 'display: flex; justify-content: space-between; padding: 8px 3rem; border-bottom: 1px solid #eee;';
+      transactionDiv.innerHTML = `
+        <span>Sale #${transaction.transactionNumber}</span>
+        <span>${transaction.netPrice}</span>
+      `;
+        
+      transactionsList.appendChild(transactionDiv);      
+        
+    });
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+  }
+}
+
+function setupTransactionPageAuth(){
+  document.getElementById('submit-password').addEventListener('click', () => {
+    const password = document.getElementById('password-input').value;
+    const hardcodedPassword = "09081997"; // Replace with your actual password
+  
+    if (password === hardcodedPassword) {
+      window.location.href = 'transactionsPage.html';
+    } else {
+      alert("Incorrect password. Access denied.");
+    }
+  
+    document.getElementById('password-modal').style.display = 'none';
+  });
+
+  document.getElementById('password-input').addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      document.getElementById('submit-password').click();
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initializeApp();
   setupEventListeners();
   loadShopItems();
+  getTodaysSaleData();
+  setupTransactionPageAuth();
+
 });
 
 function handleDiscountValue(){
@@ -265,7 +312,9 @@ function handleKeyPress(event) {
     handleDownload();
   }
   if (key === "z"){
-    window.location.href = 'transactionsPage.html';
+    document.getElementById('password-modal').style.display = 'flex';
+    document.getElementById('password-input').focus();
+     // window.location.href = 'transactionsPage.html';
   }
   if (key === "c") $("#ttb").click();
   if (key === "m" ) {

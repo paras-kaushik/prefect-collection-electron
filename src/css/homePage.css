@@ -15,9 +15,12 @@ body {
   display: flex;
   flex-direction: column;
   background-color: lightgray;
-  height: 100%;
   padding: 1rem;
-  width: 40%;
+}
+
+.overview-container {
+  height: 200px;
+  overflow: scroll;
 }
 
 .flexcol {

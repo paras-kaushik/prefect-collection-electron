@@ -62,6 +62,17 @@ ipcMain.handle('get-todays-transactions', async () => {
   return await getTodaysTransactions();
 });
 
+ipcMain.handle('get-todays-sales', async () => {
+  try {
+    const transactions = await getTodaysTransactions();
+    const totalSales = transactions.reduce((sum, transaction) => sum + transaction.netPrice, 0);
+    return totalSales;
+  } catch (error) {
+    console.error('Error fetching today\'s sales:', error);
+    return 0;
+  }
+});
+
 ipcMain.handle('get-purchases', async (event, transactionId) => {
   return await getPurchases(transactionId);
 });
